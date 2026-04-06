@@ -326,3 +326,16 @@ CustomMode.init(todayCustomSchedule, (session) => {
   updateCountdown();
   updateProgress();
 });
+import ModeHelper from "./modes/helper.js";
+
+// Pilih mode normal
+ModeHelper.switchMode("normal", { config: App.config });
+
+// Pilih mode exam
+// ModeHelper.switchMode("exam", { config: App.config });
+
+// Pilih mode hybrid dengan sesi tambahan
+// ModeHelper.switchMode("hybrid", { config: App.config, extraSessions: [{ start: "15:00", end: "16:00", name: "Ekstrakurikuler", type: "EXTRA" }] });
+
+// Pilih mode custom
+// ModeHelper.switchMode("custom", { customSchedule: todayCustomSchedule });
