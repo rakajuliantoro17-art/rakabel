@@ -1,1 +1,281 @@
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --text-color: #ffffff;
+  --blur-strong: blur(25px);
+  --blur-soft: blur(15px);
+}
 
+/* RESET */
+* {
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  margin: 0;
+  color: var(--text-color);
+
+  background: url("../assets/images/background.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* OVERLAY DARK */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: -1;
+}
+
+/* ===================== */
+/* GLASS SYSTEM */
+/* ===================== */
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--blur-strong);
+  -webkit-backdrop-filter: var(--blur-strong);
+
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+/* ===================== */
+/* HEADER */
+/* ===================== */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 20px;
+  padding: 15px 20px;
+
+  border-radius: 20px;
+
+  background: var(--glass-bg);
+  backdrop-filter: var(--blur-strong);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 42px;
+  height: 42px;
+  margin-right: 12px;
+}
+
+.header h2 {
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+#clock {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* ===================== */
+/* MODE INDICATOR */
+/* ===================== */
+
+#mode-indicator {
+  padding: 6px 14px;
+  border-radius: 14px;
+  font-size: 13px;
+  font-weight: 500;
+
+  backdrop-filter: blur(10px);
+}
+
+.mode-normal {
+  background: rgba(52, 152, 219, 0.6);
+}
+
+.mode-exam {
+  background: rgba(231, 76, 60, 0.6);
+}
+
+.mode-hybrid {
+  background: rgba(155, 89, 182, 0.6);
+}
+
+.mode-custom {
+  background: rgba(241, 196, 15, 0.6);
+}
+
+/* ===================== */
+/* GRID */
+/* ===================== */
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  padding: 20px;
+}
+
+/* ===================== */
+/* CARD */
+/* ===================== */
+
+.card {
+  padding: 20px;
+  border-radius: 18px;
+
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: var(--blur-soft);
+
+  text-align: center;
+  transition: all 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* ACTIVE JP */
+.card.active {
+  border: 2px solid #00ffd5;
+  box-shadow: 0 0 20px rgba(0,255,200,0.8);
+}
+
+/* ===================== */
+/* FLOATING BUTTON */
+/* ===================== */
+
+.fab {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+
+  width: 58px;
+  height: 58px;
+
+  border-radius: 50%;
+  border: none;
+
+  font-size: 22px;
+  cursor: pointer;
+
+  color: white;
+
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(15px);
+
+  box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+
+  transition: 0.25s;
+}
+
+.fab:hover {
+  transform: scale(1.1) rotate(15deg);
+}
+
+/* ===================== */
+/* ADMIN PANEL */
+/* ===================== */
+
+.admin-panel {
+  position: fixed;
+  bottom: 95px;
+  right: 25px;
+
+  width: 320px;
+  padding: 20px;
+
+  border-radius: 22px;
+
+  background: var(--glass-bg);
+  backdrop-filter: var(--blur-strong);
+
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+
+  display: none;
+
+  animation: fadeIn 0.3s ease;
+}
+
+.admin-panel h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+/* INPUT */
+.admin-panel select,
+.admin-panel input {
+  width: 100%;
+  margin-top: 10px;
+
+  padding: 10px;
+
+  border-radius: 12px;
+  border: none;
+
+  background: rgba(255,255,255,0.15);
+  color: white;
+}
+
+/* BUTTON */
+.admin-panel button {
+  margin-top: 12px;
+  width: 100%;
+  padding: 10px;
+
+  border-radius: 12px;
+  border: none;
+
+  cursor: pointer;
+
+  background: rgba(255,255,255,0.2);
+  color: white;
+
+  transition: 0.2s;
+}
+
+.admin-panel button:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* ===================== */
+/* ANIMATION */
+/* ===================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===================== */
+/* RESPONSIVE */
+/* ===================== */
+
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  #clock {
+    font-size: 18px;
+  }
+
+  .grid-container {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+}
