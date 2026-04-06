@@ -292,3 +292,23 @@ function start() {
 }
 
 document.addEventListener("DOMContentLoaded", start);
+
+import clock from './clock.js';
+
+// listen tick setiap detik
+clock.onTick((time) => {
+  console.log("Waktu sekarang:", time.toLocaleTimeString());
+  
+  // cek schedule.js untuk auto bell
+  checkBellSchedule(time);
+});
+
+// start clock
+clock.start();
+
+// contoh sinkron server (misal dari API)
+clock.syncServerTime(async () => {
+  const res = await fetch('/api/server-time');
+  const json = await res.json();
+  return new Date(json.time);
+});
