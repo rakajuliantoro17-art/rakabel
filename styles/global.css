@@ -496,3 +496,84 @@ body::before {
 .card:hover {
   transform: translateY(-4px) scale(1.015);
 }
+.admin-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.14),
+    rgba(255,255,255,0.02)
+  );
+
+  pointer-events: none;
+  z-index: 0;
+}
+.admin-panel > * {
+  position: relative;
+  z-index: 2;
+}
+.admin-panel {
+  z-index: 9999;
+}
+overflow: hidden;
+overflow: visible;
+.admin-panel {
+  position: fixed;
+  bottom: 95px;
+  right: 24px;
+
+  width: min(360px, 92vw);
+  padding: 20px;
+
+  border-radius: 26px;
+
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+
+  border: 1px solid rgba(255,255,255,0.14);
+
+  box-shadow:
+    0 12px 35px rgba(0,0,0,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+
+  z-index: 9999;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px) scale(0.96);
+
+  transition: all 0.28s ease;
+
+  overflow: hidden;
+}
+
+.admin-panel.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.admin-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.14),
+    rgba(255,255,255,0.02)
+  );
+
+  pointer-events: none;
+  z-index: 0;
+}
+
+.admin-panel > * {
+  position: relative;
+  z-index: 2;
+}
