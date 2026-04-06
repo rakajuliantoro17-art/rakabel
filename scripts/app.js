@@ -1,4 +1,6 @@
+// app.js
 import ScheduleEngine from "../data/schedule.js";
+import clock from "./clock.js"; // pastikan path sesuai
 
 /**
  * =========================
@@ -48,24 +50,6 @@ function initSchedule() {
 
 /**
  * =========================
- * TIME UTILS
- * =========================
- */
-function getNow() {
-  return new Date();
-}
-
-function toMinutes(timeStr) {
-  const [h, m] = timeStr.split(":").map(Number);
-  return h * 60 + m;
-}
-
-function getNowString() {
-  return getNow().toTimeString().slice(0, 5);
-}
-
-/**
- * =========================
  * AUDIO 🔔
  * =========================
  */
@@ -79,13 +63,12 @@ function playBell() {
 
 /**
  * =========================
- * CLOCK
+ * CLOCK UI
  * =========================
  */
 function updateClock() {
   const el = document.getElementById("clock");
-
-  el.innerText = getNow().toLocaleTimeString("id-ID", {
+  el.innerText = clock.currentTime.toLocaleTimeString("id-ID", {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit"
@@ -98,7 +81,7 @@ function updateClock() {
  * =========================
  */
 function updateSession() {
-  const nowStr = getNowString();
+  const nowStr = clock.currentTime.toTimeString().slice(0, 5);
   const session = ScheduleEngine.getCurrentSession(App.schedule, nowStr);
 
   if (session) {
@@ -127,11 +110,12 @@ function updateCountdown() {
     return;
   }
 
-  const now = getNow();
-  const end = toMinutes(App.currentSession.end);
+  const now = clock.currentTime;
+  const end = App.currentSession.end.split(":").map(Number);
+  const endMinutes = end[0] * 60 + end[1];
 
   const currentMinutes = now.getHours() * 60 + now.getMinutes();
-  const diff = (end - currentMinutes) * 60 - now.getSeconds();
+  const diff = (endMinutes - currentMinutes) * 60 - now.getSeconds();
 
   const min = Math.floor(diff / 60).toString().padStart(2, "0");
   const sec = (diff % 60).toString().padStart(2, "0");
@@ -142,7 +126,6 @@ function updateCountdown() {
 /**
  * =========================
  * PROGRESS BAR 📊
- * =========================
  */
 function updateProgress() {
   const bar = document.getElementById("progressBar");
@@ -152,21 +135,21 @@ function updateProgress() {
     return;
   }
 
-  const now = getNow();
-  const start = toMinutes(App.currentSession.start);
-  const end = toMinutes(App.currentSession.end);
+  const now = clock.currentTime;
+  const start = App.currentSession.start.split(":").map(Number);
+  const end = App.currentSession.end.split(":").map(Number);
 
-  const current = now.getHours() * 60 + now.getMinutes();
+  const startMinutes = start[0] * 60 + start[1];
+  const endMinutes = end[0] * 60 + end[1];
+  const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
-  const progress = ((current - start) / (end - start)) * 100;
-
+  const progress = ((currentMinutes - startMinutes) / (endMinutes - startMinutes)) * 100;
   bar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
 }
 
 /**
  * =========================
  * UI RENDER
- * =========================
  */
 function renderSchedule() {
   const container = document.getElementById("scheduleContainer");
@@ -216,7 +199,6 @@ function renderCurrent() {
 /**
  * =========================
  * LOGGING (LOCAL)
- * =========================
  */
 function logEvent(type, session) {
   const logs = JSON.parse(localStorage.getItem("logs") || "[]");
@@ -233,7 +215,6 @@ function logEvent(type, session) {
 /**
  * =========================
  * ADMIN PANEL ⚙️
- * =========================
  */
 function initAdminPanel() {
   const gear = document.getElementById("gearBtn");
@@ -251,7 +232,6 @@ function initAdminPanel() {
 /**
  * =========================
  * ONLINE / OFFLINE
- * =========================
  */
 function updateConnection() {
   const el = document.getElementById("status");
@@ -262,22 +242,7 @@ function updateConnection() {
 
 /**
  * =========================
- * MAIN LOOP
- * =========================
- */
-function loop() {
-  updateClock();
-  updateSession();
-  renderCurrent();
-  renderSchedule();
-  updateCountdown();
-  updateProgress();
-}
-
-/**
- * =========================
  * INIT
- * =========================
  */
 function start() {
   loadConfig();
@@ -285,30 +250,20 @@ function start() {
   initAdminPanel();
   updateConnection();
 
-  setInterval(loop, 1000);
+  // Clock realtime listener
+  clock.onTick(() => {
+    updateSession();
+    renderCurrent();
+    renderSchedule();
+    updateCountdown();
+    updateProgress();
+    updateClock();
+  });
+
+  clock.start(); // mulai realtime clock
 
   window.addEventListener("online", updateConnection);
   window.addEventListener("offline", updateConnection);
 }
 
 document.addEventListener("DOMContentLoaded", start);
-
-import clock from './clock.js';
-
-// listen tick setiap detik
-clock.onTick((time) => {
-  console.log("Waktu sekarang:", time.toLocaleTimeString());
-  
-  // cek schedule.js untuk auto bell
-  checkBellSchedule(time);
-});
-
-// start clock
-clock.start();
-
-// contoh sinkron server (misal dari API)
-clock.syncServerTime(async () => {
-  const res = await fetch('/api/server-time');
-  const json = await res.json();
-  return new Date(json.time);
-});
