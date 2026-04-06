@@ -352,3 +352,29 @@ const jpStart = TimeUtils.toMinutes("07:00");
 
 // Konversi menit total ke string
 const timeStr = TimeUtils.fromMinutes(435); // "07:15"
+// app.js – updateCountdown versi advanced menggunakan TimeUtils
+import TimeUtils from "./time.js";
+import clock from "./clock.js"; // pastikan clock.js expose clock.currentTime
+
+function updateCountdown() {
+  const el = document.getElementById("countdown");
+
+  if (!App.currentSession) {
+    el.innerText = "--:--";
+    return;
+  }
+
+  // hitung sisa detik dari sekarang sampai session berakhir
+  const secondsLeft = TimeUtils.secondsUntil(App.currentSession.end, clock.currentTime);
+
+  // format menjadi MM:SS
+  el.innerText = TimeUtils.formatCountdown(secondsLeft);
+}
+function loop() {
+  updateClock(); // tampilkan jam realtime
+  updateSession(); // update session sekarang
+  renderCurrent(); // update UI current session
+  renderSchedule(); // update schedule UI
+  updateCountdown(); // countdown pakai TimeUtils
+  updateProgress(); // update progress bar
+}
