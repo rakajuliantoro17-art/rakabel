@@ -1,1 +1,277 @@
+/* ========================= */
+/* MODE CUSTOM STYLE */
+/* ========================= */
 
+.mode-custom-container {
+  animation: fadeInCustom 0.4s ease;
+}
+
+/* ========================= */
+/* CARD CUSTOM */
+/* ========================= */
+
+.card.custom {
+  position: relative;
+  overflow: hidden;
+
+  background: rgba(46, 204, 113, 0.08);
+  border: 1px solid rgba(46, 204, 113, 0.3);
+
+  backdrop-filter: blur(18px);
+}
+
+/* strip kiri */
+.card.custom::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  width: 5px;
+  height: 100%;
+
+  background: rgba(46, 204, 113, 0.4);
+}
+
+/* ========================= */
+/* TEXT */
+/* ========================= */
+
+.card.custom .jp-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.card.custom .jp-time {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+/* label tambahan */
+.card.custom .custom-label {
+  font-size: 12px;
+  margin-top: 5px;
+  opacity: 0.7;
+}
+
+/* ========================= */
+/* ACTIVE */
+/* ========================= */
+
+.card.custom.active {
+  transform: scale(1.05);
+
+  border: 2px solid #2ecc71;
+
+  box-shadow:
+    0 0 25px rgba(46, 204, 113, 0.9),
+    inset 0 0 12px rgba(255,255,255,0.2);
+
+  animation: pulseCustom 1.5s infinite;
+}
+
+/* strip aktif */
+.card.custom.active::before {
+  background: linear-gradient(to bottom, #2ecc71, #27ae60);
+  width: 6px;
+}
+
+/* ========================= */
+/* BREAK */
+/* ========================= */
+
+.card.custom.break {
+  background: rgba(255, 200, 0, 0.15);
+  border: 1px solid rgba(255, 200, 0, 0.4);
+}
+
+.card.custom.break .jp-title {
+  color: #ffd166;
+}
+
+.card.custom.break::after {
+  content: "☕";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/* ========================= */
+/* ACTIVE BREAK */
+/* ========================= */
+
+.card.custom.break.active {
+  box-shadow:
+    0 0 20px rgba(255,200,0,0.9);
+}
+
+/* ========================= */
+/* COUNTDOWN (OPSIONAL) */
+/* ========================= */
+
+.card.custom .countdown {
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+/* warna countdown */
+.card.custom.active .countdown {
+  color: #b9fbc0;
+}
+
+/* ========================= */
+/* FLOW STATUS */
+/* ========================= */
+
+.card.custom.past {
+  opacity: 0.4;
+  filter: grayscale(60%);
+}
+
+.card.custom.next {
+  opacity: 0.65;
+  transform: scale(0.98);
+}
+
+/* ========================= */
+/* WARNING */
+/* ========================= */
+
+.card.custom.warning {
+  border: 2px solid #f1c40f;
+
+  box-shadow:
+    0 0 20px rgba(241, 196, 15, 0.9);
+
+  animation: pulseCustomWarning 1.2s infinite;
+}
+
+/* ========================= */
+/* CRITICAL */
+/* ========================= */
+
+.card.custom.critical {
+  border: 2px solid #e74c3c;
+
+  box-shadow:
+    0 0 25px rgba(231, 76, 60, 0.9);
+
+  animation: pulseCustomCritical 1s infinite;
+}
+
+/* ========================= */
+/* HEADER MODE */
+/* ========================= */
+
+.mode-custom #mode-indicator {
+  background: rgba(46, 204, 113, 0.6);
+}
+
+/* ========================= */
+/* HOVER */
+/* ========================= */
+
+.card.custom:hover {
+  transform: translateY(-3px) scale(1.02);
+}
+
+/* ========================= */
+/* EDITABLE MODE (ADMIN CUSTOM) */
+/* ========================= */
+
+.card.custom.editable {
+  border: 2px dashed rgba(255,255,255,0.4);
+  cursor: pointer;
+}
+
+.card.custom.editable:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+/* ========================= */
+/* INPUT INLINE (OPTIONAL) */
+/* ========================= */
+
+.card.custom input {
+  width: 80%;
+  margin-top: 5px;
+
+  padding: 5px;
+  border-radius: 8px;
+  border: none;
+
+  text-align: center;
+}
+
+/* ========================= */
+/* ANIMATIONS */
+/* ========================= */
+
+@keyframes pulseCustom {
+  0% {
+    box-shadow: 0 0 10px rgba(46,204,113,0.5);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(46,204,113,1);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(46,204,113,0.5);
+  }
+}
+
+@keyframes pulseCustomWarning {
+  0% { box-shadow: 0 0 10px rgba(241,196,15,0.5); }
+  50% { box-shadow: 0 0 25px rgba(241,196,15,1); }
+  100% { box-shadow: 0 0 10px rgba(241,196,15,0.5); }
+}
+
+@keyframes pulseCustomCritical {
+  0% { box-shadow: 0 0 10px rgba(231,76,60,0.5); }
+  50% { box-shadow: 0 0 30px rgba(231,76,60,1); }
+  100% { box-shadow: 0 0 10px rgba(231,76,60,0.5); }
+}
+
+@keyframes fadeInCustom {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================= */
+/* SPECIAL CASE */
+/* ========================= */
+
+/* istirahat 0 menit */
+.card.custom.break.hidden {
+  display: none;
+}
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
+@media (max-width: 600px) {
+
+  .card.custom.active {
+    transform: scale(1.03);
+  }
+
+  .card.custom .jp-title {
+    font-size: 16px;
+  }
+
+  .card.custom .jp-time {
+    font-size: 12px;
+  }
+
+  .card.custom .countdown {
+    font-size: 13px;
+  }
+}
