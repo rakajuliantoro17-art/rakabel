@@ -1,44 +1,3 @@
-.app-shell {
-  min-height: 100vh;
-  padding: 16px;
-}
-
-.main-content {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    gap: 14px;
-    text-align: center;
-  }
-
-  .header-right {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .grid-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 480px) {
-  .grid-container {
-    grid-template-columns: 1fr;
-  }
-
-  .header-title h1 {
-    font-size: 18px;
-  }
-}
 :root {
   --glass-bg: rgba(255, 255, 255, 0.08);
   --glass-border: rgba(255, 255, 255, 0.16);
@@ -47,10 +6,8 @@
   --text-primary: #ffffff;
   --text-secondary: rgba(255,255,255,0.72);
 
-  --navy: rgba(9, 26, 58, 0.05);
-  --red: rgba(110, 12, 24, 0.05);
-
   --shadow-soft: 0 10px 35px rgba(0,0,0,0.18);
+
   --blur-strong: blur(24px);
   --blur-soft: blur(16px);
 
@@ -59,7 +16,7 @@
   --radius-pill: 999px;
 }
 
-/* RESET */
+/* ================= RESET ================= */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -83,7 +40,7 @@ body {
   background-size: cover;
 }
 
-/* DARK + COLOR OVERLAY */
+/* overlay */
 body::before {
   content: "";
   position: fixed;
@@ -102,14 +59,19 @@ body::before {
   z-index: -1;
 }
 
-/* APP WRAPPER */
+/* ================= APP WRAPPER ================= */
 .app-shell {
   min-height: 100vh;
   padding: 18px;
 }
 
-/* ================= HEADER ================= */
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
 
+/* ================= HEADER ================= */
 .header {
   display: flex;
   justify-content: space-between;
@@ -134,7 +96,6 @@ body::before {
   overflow: hidden;
 }
 
-/* liquid reflection */
 .header::before {
   content: "";
   position: absolute;
@@ -150,14 +111,19 @@ body::before {
   pointer-events: none;
 }
 
-/* LEFT */
 .header-left {
   display: flex;
   align-items: center;
   gap: 14px;
 }
 
-/* LOGO */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ================= LOGO ================= */
 .logo {
   width: 54px;
   height: 54px;
@@ -174,7 +140,7 @@ body::before {
     inset 0 1px 0 rgba(255,255,255,0.08);
 }
 
-/* TITLE */
+/* ================= TITLE ================= */
 .header-title h1 {
   font-size: 22px;
   font-weight: 700;
@@ -190,14 +156,7 @@ body::before {
   letter-spacing: 0.6px;
 }
 
-/* RIGHT */
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-/* IOS GLASS PILL */
+/* ================= GLASS PILL ================= */
 .glass-pill {
   padding: 10px 16px;
   border-radius: var(--radius-pill);
@@ -217,14 +176,13 @@ body::before {
   font-size: 14px;
 }
 
-/* CLOCK */
 #clock {
   font-size: 18px;
   font-weight: 700;
   letter-spacing: 1px;
 }
 
-/* MODE COLORS */
+/* ================= MODE ================= */
 .mode-normal {
   background: rgba(52, 152, 219, 0.22);
 }
@@ -241,17 +199,9 @@ body::before {
   background: rgba(46, 204, 113, 0.22);
 }
 
-/* MAIN CONTENT */
-.main-content {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-/* GLASS BLOCK */
+/* ================= GLASS BLOCK ================= */
 .current-session,
-.status,
-.admin-panel {
+.status {
   background: var(--glass-bg);
   backdrop-filter: var(--blur-strong);
   border: 1px solid var(--glass-border);
@@ -265,191 +215,7 @@ body::before {
   padding: 18px;
 }
 
-/* GRID */
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 18px;
-}
-
-/* FLOAT BUTTON */
-.fab {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-
-  width: 60px;
-  height: 60px;
-
-  border: none;
-  border-radius: 50%;
-
-  font-size: 22px;
-  color: white;
-  cursor: pointer;
-
-  background: rgba(255,255,255,0.12);
-  backdrop-filter: blur(18px);
-
-  box-shadow:
-    0 8px 24px rgba(0,0,0,0.18),
-    inset 0 1px 0 rgba(255,255,255,0.08);
-
-  transition: all 0.25s ease;
-}
-
-.fab:hover {
-  transform: scale(1.06);
-}
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    gap: 14px;
-    text-align: center;
-  }
-
-  .header-right {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .logo {
-    width: 48px;
-    height: 48px;
-  }
-
-  .header-title h1 {
-    font-size: 18px;
-  }
-}
-
-@media (max-width: 480px) {
-  .grid-container {
-    grid-template-columns: 1fr;
-  }
-
-  .header-title h1 {
-    font-size: 16px;
-  }
-
-  .glass-pill {
-    font-size: 12px;
-  }
-}
-.admin-panel h3 {
-  margin-bottom: 14px;
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.admin-panel label {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 13px;
-  opacity: 0.8;
-}
-.admin-panel button {
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.admin-panel button:hover {
-  background: rgba(255,255,255,0.18);
-}
-/* ================= ADMIN FLOATING PANEL ================= */
-
-.admin-panel {
-  position: fixed;
-  bottom: 95px;
-  right: 24px;
-
-  width: min(360px, 92vw);
-  padding: 20px;
-
-  border-radius: 26px;
-
-  background: rgba(255, 255, 255, 0.10);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-
-  border: 1px solid rgba(255,255,255,0.14);
-
-  box-shadow:
-    0 12px 35px rgba(0,0,0,0.18),
-    inset 0 1px 0 rgba(255,255,255,0.08);
-
-  z-index: 1000;
-
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(16px) scale(0.96);
-
-  transition: all 0.28s ease;
-
-  overflow: hidden;
-}
-
-/* reflection */
-.admin-panel::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-
-  background: linear-gradient(
-    135deg,
-    rgba(255,255,255,0.14),
-    rgba(255,255,255,0.02)
-  );
-
-  pointer-events: none;
-}
-
-/* active state */
-.admin-panel.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0) scale(1);
-}
-.admin-panel h3 {
-  margin-bottom: 14px;
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.admin-panel label {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 13px;
-  opacity: 0.8;
-}
-.admin-panel select,
-.admin-panel input,
-.admin-panel button {
-  width: 100%;
-  margin-top: 10px;
-  padding: 12px 14px;
-
-  border: none;
-  border-radius: 16px;
-
-  background: rgba(255,255,255,0.12);
-  color: white;
-
-  backdrop-filter: blur(14px);
-
-  font-size: 14px;
-}
-.admin-panel button {
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.admin-panel button:hover {
-  background: rgba(255,255,255,0.18);
-}
+/* ================= GRID ================= */
 .grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
@@ -457,6 +223,7 @@ body::before {
   padding: 10px;
 }
 
+/* ================= CARD ================= */
 .card {
   position: relative;
   overflow: hidden;
@@ -496,38 +263,46 @@ body::before {
 .card:hover {
   transform: translateY(-4px) scale(1.015);
 }
-.admin-panel::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
 
-  background: linear-gradient(
-    135deg,
-    rgba(255,255,255,0.14),
-    rgba(255,255,255,0.02)
-  );
+/* ================= FLOAT BUTTON ================= */
+.fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
 
-  pointer-events: none;
-  z-index: 0;
+  width: 60px;
+  height: 60px;
+
+  border: none;
+  border-radius: 50%;
+
+  font-size: 22px;
+  color: white;
+  cursor: pointer;
+
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+
+  transition: all 0.25s ease;
+  z-index: 9998;
 }
-.admin-panel > * {
-  position: relative;
-  z-index: 2;
+
+.fab:hover {
+  transform: scale(1.06);
 }
-.admin-panel {
-  z-index: 9999;
-}
-overflow: hidden;
-overflow: visible;
+
+/* ================= ADMIN PANEL ================= */
 .admin-panel {
   position: fixed;
   bottom: 95px;
   right: 24px;
-
   width: min(360px, 92vw);
-  padding: 20px;
 
+  padding: 20px;
   border-radius: 26px;
 
   background: rgba(255,255,255,0.10);
@@ -544,8 +319,9 @@ overflow: visible;
 
   opacity: 0;
   visibility: hidden;
-  transform: translateY(16px) scale(0.96);
+  pointer-events: none;
 
+  transform: translateY(16px) scale(0.96);
   transition: all 0.28s ease;
 
   overflow: hidden;
@@ -554,6 +330,8 @@ overflow: visible;
 .admin-panel.show {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
+
   transform: translateY(0) scale(1);
 }
 
@@ -576,4 +354,85 @@ overflow: visible;
 .admin-panel > * {
   position: relative;
   z-index: 2;
+}
+
+.admin-panel h3 {
+  margin-bottom: 14px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.admin-panel label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.admin-panel select,
+.admin-panel input,
+.admin-panel button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px 14px;
+
+  border: none;
+  border-radius: 16px;
+
+  background: rgba(255,255,255,0.12);
+  color: white;
+
+  backdrop-filter: blur(14px);
+
+  font-size: 14px;
+}
+
+.admin-panel button {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-panel button:hover {
+  background: rgba(255,255,255,0.18);
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 14px;
+    text-align: center;
+  }
+
+  .header-right {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .logo {
+    width: 48px;
+    height: 48px;
+  }
+
+  .header-title h1 {
+    font-size: 18px;
+  }
+
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+
+  .header-title h1 {
+    font-size: 16px;
+  }
+
+  .glass-pill {
+    font-size: 12px;
+  }
 }
