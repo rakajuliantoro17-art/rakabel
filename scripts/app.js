@@ -289,3 +289,19 @@ ExamMode.init(App.config, (session) => {
   updateCountdown();
   updateProgress();
 });
+import HybridMode from "./modes/hybrid.js";
+
+// Contoh sesi tambahan (ekstrakurikuler / bel siang)
+const extraSessions = [
+  { start: "15:00", end: "16:00", name: "Ekstrakurikuler", type: "EXTRA" },
+];
+
+// Inisialisasi hybrid mode
+HybridMode.init(App.config, extraSessions, (session) => {
+  App.currentSession = session;
+  if (session) playBell();
+  renderCurrent();
+  renderSchedule();
+  updateCountdown();
+  updateProgress();
+});
