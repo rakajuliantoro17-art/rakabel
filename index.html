@@ -1,1 +1,178 @@
+<!DOCTYPE html>
+
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Bell System</title>
+
+  <!-- STYLES -->
+
+  <link rel="stylesheet" href="styles/global.css">
+  <link rel="stylesheet" href="styles/normal.css">
+  <link rel="stylesheet" href="styles/exam.css">
+  <link rel="stylesheet" href="styles/hybrid.css">
+  <link rel="stylesheet" href="styles/custom.css">
+</head>
+
+<body>
+
+  <!-- HEADER -->
+
+  <header class="header">
+    <h1>SMART BELL SYSTEM</h1>
+
+```
+<div id="clock">00:00:00</div>
+
+<div id="mode-indicator" class="mode-normal">
+  MODE: NORMAL
+</div>
+```
+
+  </header>
+
+  <!-- MAIN APP -->
+
+  <main id="app">
+
+```
+<!-- ================= NORMAL MODE ================= -->
+<section id="normal-mode" class="mode-section">
+  <h2>Jadwal Pelajaran</h2>
+  <div id="normal-grid" class="grid-container"></div>
+</section>
+
+
+<!-- ================= EXAM MODE ================= -->
+<section id="exam-mode" class="mode-section hidden">
+  <h2>Mode Ujian</h2>
+
+  <div class="exam-info">
+    <div id="exam-session">Sesi 1</div>
+    <div id="exam-subject">Mapel 1</div>
+    <div id="exam-timer">60:00</div>
+  </div>
+</section>
+
+
+<!-- ================= HYBRID MODE ================= -->
+<section id="hybrid-mode" class="mode-section hidden">
+  <h2>Mode Hybrid</h2>
+
+  <div id="hybrid-grid" class="grid-container">
+    <!-- CARD akan di-render oleh JS -->
+  </div>
+</section>
+
+
+<!-- ================= CUSTOM MODE ================= -->
+<section id="custom-mode" class="mode-section hidden">
+  <h2>Mode Custom</h2>
+
+  <div id="custom-grid" class="grid-container">
+    <!-- AUTO GENERATED dari config -->
+  </div>
+</section>
+```
+
+  </main>
+
+  <!-- FOOTER -->
+
+  <footer>
+    <button id="admin-btn">⚙️</button>
+  </footer>
+
+  <!-- ================= ADMIN PANEL ================= -->
+
+  <div id="admin-panel" class="admin-hidden">
+
+```
+<div class="admin-overlay"></div>
+
+<div class="admin-modal">
+
+  <!-- HEADER -->
+  <div class="admin-header">
+    <h3>Admin Panel</h3>
+    <button id="close-admin">✕</button>
+  </div>
+
+  <!-- TAB NAV -->
+  <div class="admin-tabs">
+    <button data-tab="mode" class="active">Mode</button>
+    <button data-tab="custom">Custom</button>
+    <button data-tab="exam">Exam</button>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="admin-content">
+
+    <!-- MODE TAB -->
+    <div class="tab-content active" id="tab-mode">
+      <label>Pilih Mode</label>
+      <select id="mode-select">
+        <option value="normal">Normal</option>
+        <option value="exam">Ujian</option>
+        <option value="hybrid">Hybrid</option>
+        <option value="custom">Custom</option>
+      </select>
+    </div>
+
+    <!-- CUSTOM TAB -->
+    <div class="tab-content" id="tab-custom">
+
+      <label>Durasi JP (menit)</label>
+      <input type="number" id="jp-duration">
+
+      <label>Istirahat 1 Setelah JP ke</label>
+      <input type="number" id="break1-after">
+
+      <label>Durasi Istirahat 1</label>
+      <input type="number" id="break1-duration">
+
+      <label>Istirahat 2 Setelah JP ke</label>
+      <input type="number" id="break2-after">
+
+      <label>Durasi Istirahat 2</label>
+      <input type="number" id="break2-duration">
+
+    </div>
+
+    <!-- EXAM TAB -->
+    <div class="tab-content" id="tab-exam">
+
+      <label>Jumlah Sesi</label>
+      <select id="total-session">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+      </select>
+
+      <label>Durasi per Mapel (menit)</label>
+      <input type="number" id="exam-duration">
+
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="admin-footer">
+    <button id="save-config">Simpan</button>
+  </div>
+
+</div>
+```
+
+  </div>
+
+  <!-- SCRIPTS -->
+
+  <script src="scripts/app.js"></script>
+
+  <script src="scripts/clock.js"></script>
+
+</body>
+</html>
 
