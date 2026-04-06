@@ -319,3 +319,22 @@ body::before {
 .admin-panel.open {
   display: block;
 }
+.countdown {
+  font-size: 28px;
+  margin-top: 10px;
+}
+
+.progress {
+  height: 6px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+#progressBar {
+  height: 100%;
+  width: 0%;
+  background: white;
+  transition: width 1s linear;
+}
