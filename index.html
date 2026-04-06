@@ -9,151 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
   <!-- STYLE -->
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
-
-    body {
-      margin: 0;
-      color: white;
-      background: url("assets/images/background.jpg") no-repeat center center fixed;
-      background-size: cover;
-    }
-
-    /* overlay */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(4px);
-      z-index: -1;
-    }
-
-    /* HEADER */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 20px;
-      padding: 15px 20px;
-      border-radius: 20px;
-
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(20px);
-    }
-
-    .header-left {
-      display: flex;
-      align-items: center;
-    }
-
-    .logo {
-      width: 40px;
-      margin-right: 10px;
-    }
-
-    #clock {
-      font-size: 20px;
-      font-weight: 600;
-    }
-
-    #mode-indicator {
-      padding: 6px 12px;
-      border-radius: 12px;
-      font-size: 14px;
-    }
-
-    .mode-normal { background: rgba(52,152,219,0.6); }
-    .mode-exam { background: rgba(231,76,60,0.6); }
-    .mode-hybrid { background: rgba(155,89,182,0.6); }
-    .mode-custom { background: rgba(241,196,15,0.6); }
-
-    /* GRID */
-    .grid-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 15px;
-      padding: 20px;
-    }
-
-    .card {
-      padding: 20px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.1);
-      backdrop-filter: blur(15px);
-      text-align: center;
-      transition: 0.3s;
-    }
-
-    .card:hover {
-      transform: scale(1.03);
-    }
-
-    .active {
-      border: 2px solid #00ffcc;
-      box-shadow: 0 0 15px rgba(0,255,200,0.7);
-    }
-
-    /* FLOATING BUTTON */
-    .fab {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      width: 55px;
-      height: 55px;
-      border-radius: 50%;
-      border: none;
-      font-size: 22px;
-      cursor: pointer;
-
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(15px);
-      color: white;
-    }
-
-    /* ADMIN PANEL */
-    .admin-panel {
-      position: fixed;
-      bottom: 90px;
-      right: 25px;
-      width: 300px;
-      padding: 20px;
-      border-radius: 20px;
-
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(25px);
-
-      display: none;
-    }
-
-    .admin-panel h3 {
-      margin-top: 0;
-    }
-
-    .admin-panel select,
-    .admin-panel input {
-      width: 100%;
-      margin-top: 10px;
-      padding: 8px;
-      border-radius: 10px;
-      border: none;
-    }
-
-    .admin-panel button {
-      margin-top: 10px;
-      width: 100%;
-      padding: 10px;
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
-    }
-
-  </style>
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
-
 <body>
 
   <!-- HEADER -->
@@ -162,26 +19,25 @@
       <img src="assets/logo/logo.png" class="logo">
       <h2>SMART BELL SYSTEM</h2>
     </div>
-
     <div id="clock">00:00:00</div>
-
-    <div id="mode-indicator" class="mode-normal">
-      MODE: NORMAL
-    </div>
+    <div id="mode-indicator" class="mode-normal">MODE: NORMAL</div>
   </div>
 
-  <!-- GRID -->
-  <div class="grid-container" id="schedule">
-    <!-- AUTO DIISI JS -->
-  </div>
+  <!-- CURRENT SESSION -->
+  <div id="currentSession" class="current-session"></div>
 
-  <!-- FLOAT BUTTON -->
-  <button class="fab" onclick="toggleAdmin()">⚙</button>
+  <!-- SCHEDULE GRID -->
+  <div id="scheduleContainer" class="grid-container"></div>
+
+  <!-- STATUS ONLINE/OFFLINE -->
+  <div id="status" class="status"></div>
+
+  <!-- FLOATING GEAR -->
+  <button id="gearBtn" class="fab">⚙</button>
 
   <!-- ADMIN PANEL -->
-  <div class="admin-panel" id="adminPanel">
+  <div id="adminPanel" class="admin-panel">
     <h3>Admin Panel</h3>
-
     <label>Mode</label>
     <select id="modeSelect">
       <option value="normal">Normal</option>
@@ -189,85 +45,11 @@
       <option value="hybrid">Hybrid</option>
       <option value="custom">Custom</option>
     </select>
-
-    <button onclick="applyMode()">Apply Mode</button>
+    <button id="applyMode">Apply Mode</button>
+    <button id="toggleBell">Toggle Bell</button>
   </div>
 
   <!-- SCRIPT -->
-  <script>
-
-    const scheduleContainer = document.getElementById("schedule");
-
-    function generateSchedule() {
-      scheduleContainer.innerHTML = "";
-
-      for (let i = 1; i <= 10; i++) {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-          <h3>JP ${i}</h3>
-          <p>07:00 - 07:45</p>
-        `;
-        scheduleContainer.appendChild(card);
-      }
-    }
-
-    generateSchedule();
-
-    /* CLOCK */
-    function updateClock() {
-      const now = new Date();
-      document.getElementById("clock").innerText =
-        now.toLocaleTimeString();
-    }
-
-    setInterval(updateClock, 1000);
-
-    /* ADMIN */
-    function toggleAdmin() {
-      const panel = document.getElementById("adminPanel");
-      panel.style.display =
-        panel.style.display === "block" ? "none" : "block";
-    }
-
-    function applyMode() {
-      const mode = document.getElementById("modeSelect").value;
-      const indicator = document.getElementById("mode-indicator");
-
-      indicator.className = "";
-      indicator.classList.add("mode-" + mode);
-      indicator.innerText = "MODE: " + mode.toUpperCase();
-    }
-
-  </script>
-
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>
-
-<div id="status" class="status"></div>
-
-<div id="clock" class="clock"></div>
-
-<div id="currentSession"></div>
-
-<div id="scheduleContainer" class="schedule"></div>
-
-<!-- Floating Gear -->
-<div id="gearBtn" class="gear">⚙️</div>
-
-<!-- Admin Panel -->
-<div id="adminPanel" class="admin-panel glass">
-  <button id="toggleBell">Toggle Bell</button>
-</div>
-<div id="status"></div>
-<div id="clock"></div>
-
-<div id="currentSession"></div>
-
-<div id="scheduleContainer"></div>
-
-<div id="gearBtn">⚙️</div>
-
-<div id="adminPanel" class="admin-panel glass">
-  <button id="toggleBell">Toggle Bell</button>
-</div>
