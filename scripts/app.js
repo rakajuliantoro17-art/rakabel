@@ -267,3 +267,14 @@ function start() {
 }
 
 document.addEventListener("DOMContentLoaded", start);
+import NormalMode from "./modes/normal.js";
+
+// Inisialisasi mode normal
+NormalMode.init(App.config, (session) => {
+  App.currentSession = session;
+  if (session) playBell();
+  renderCurrent();
+  renderSchedule();
+  updateCountdown();
+  updateProgress();
+});
