@@ -1,178 +1,245 @@
 <!DOCTYPE html>
-
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smart Bell System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- STYLES -->
+  <!-- FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles/global.css">
-  <link rel="stylesheet" href="styles/normal.css">
-  <link rel="stylesheet" href="styles/exam.css">
-  <link rel="stylesheet" href="styles/hybrid.css">
-  <link rel="stylesheet" href="styles/custom.css">
+  <!-- STYLE -->
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      color: white;
+      background: url("assets/images/background.jpg") no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    /* overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+      z-index: -1;
+    }
+
+    /* HEADER */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 20px;
+      padding: 15px 20px;
+      border-radius: 20px;
+
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(20px);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo {
+      width: 40px;
+      margin-right: 10px;
+    }
+
+    #clock {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    #mode-indicator {
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 14px;
+    }
+
+    .mode-normal { background: rgba(52,152,219,0.6); }
+    .mode-exam { background: rgba(231,76,60,0.6); }
+    .mode-hybrid { background: rgba(155,89,182,0.6); }
+    .mode-custom { background: rgba(241,196,15,0.6); }
+
+    /* GRID */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      padding: 20px;
+    }
+
+    .card {
+      padding: 20px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(15px);
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .active {
+      border: 2px solid #00ffcc;
+      box-shadow: 0 0 15px rgba(0,255,200,0.7);
+    }
+
+    /* FLOATING BUTTON */
+    .fab {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(15px);
+      color: white;
+    }
+
+    /* ADMIN PANEL */
+    .admin-panel {
+      position: fixed;
+      bottom: 90px;
+      right: 25px;
+      width: 300px;
+      padding: 20px;
+      border-radius: 20px;
+
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(25px);
+
+      display: none;
+    }
+
+    .admin-panel h3 {
+      margin-top: 0;
+    }
+
+    .admin-panel select,
+    .admin-panel input {
+      width: 100%;
+      margin-top: 10px;
+      padding: 8px;
+      border-radius: 10px;
+      border: none;
+    }
+
+    .admin-panel button {
+      margin-top: 10px;
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+    }
+
+  </style>
 </head>
 
 <body>
 
   <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <img src="assets/logo/logo.png" class="logo">
+      <h2>SMART BELL SYSTEM</h2>
+    </div>
 
-  <header class="header">
-    <h1>SMART BELL SYSTEM</h1>
+    <div id="clock">00:00:00</div>
 
-```
-<div id="clock">00:00:00</div>
-
-<div id="mode-indicator" class="mode-normal">
-  MODE: NORMAL
-</div>
-```
-
-  </header>
-
-  <!-- MAIN APP -->
-
-  <main id="app">
-
-```
-<!-- ================= NORMAL MODE ================= -->
-<section id="normal-mode" class="mode-section">
-  <h2>Jadwal Pelajaran</h2>
-  <div id="normal-grid" class="grid-container"></div>
-</section>
-
-
-<!-- ================= EXAM MODE ================= -->
-<section id="exam-mode" class="mode-section hidden">
-  <h2>Mode Ujian</h2>
-
-  <div class="exam-info">
-    <div id="exam-session">Sesi 1</div>
-    <div id="exam-subject">Mapel 1</div>
-    <div id="exam-timer">60:00</div>
+    <div id="mode-indicator" class="mode-normal">
+      MODE: NORMAL
+    </div>
   </div>
-</section>
 
-
-<!-- ================= HYBRID MODE ================= -->
-<section id="hybrid-mode" class="mode-section hidden">
-  <h2>Mode Hybrid</h2>
-
-  <div id="hybrid-grid" class="grid-container">
-    <!-- CARD akan di-render oleh JS -->
+  <!-- GRID -->
+  <div class="grid-container" id="schedule">
+    <!-- AUTO DIISI JS -->
   </div>
-</section>
 
+  <!-- FLOAT BUTTON -->
+  <button class="fab" onclick="toggleAdmin()">⚙</button>
 
-<!-- ================= CUSTOM MODE ================= -->
-<section id="custom-mode" class="mode-section hidden">
-  <h2>Mode Custom</h2>
-
-  <div id="custom-grid" class="grid-container">
-    <!-- AUTO GENERATED dari config -->
-  </div>
-</section>
-```
-
-  </main>
-
-  <!-- FOOTER -->
-
-  <footer>
-    <button id="admin-btn">⚙️</button>
-  </footer>
-
-  <!-- ================= ADMIN PANEL ================= -->
-
-  <div id="admin-panel" class="admin-hidden">
-
-```
-<div class="admin-overlay"></div>
-
-<div class="admin-modal">
-
-  <!-- HEADER -->
-  <div class="admin-header">
+  <!-- ADMIN PANEL -->
+  <div class="admin-panel" id="adminPanel">
     <h3>Admin Panel</h3>
-    <button id="close-admin">✕</button>
+
+    <label>Mode</label>
+    <select id="modeSelect">
+      <option value="normal">Normal</option>
+      <option value="exam">Ujian</option>
+      <option value="hybrid">Hybrid</option>
+      <option value="custom">Custom</option>
+    </select>
+
+    <button onclick="applyMode()">Apply Mode</button>
   </div>
 
-  <!-- TAB NAV -->
-  <div class="admin-tabs">
-    <button data-tab="mode" class="active">Mode</button>
-    <button data-tab="custom">Custom</button>
-    <button data-tab="exam">Exam</button>
-  </div>
+  <!-- SCRIPT -->
+  <script>
 
-  <!-- CONTENT -->
-  <div class="admin-content">
+    const scheduleContainer = document.getElementById("schedule");
 
-    <!-- MODE TAB -->
-    <div class="tab-content active" id="tab-mode">
-      <label>Pilih Mode</label>
-      <select id="mode-select">
-        <option value="normal">Normal</option>
-        <option value="exam">Ujian</option>
-        <option value="hybrid">Hybrid</option>
-        <option value="custom">Custom</option>
-      </select>
-    </div>
+    function generateSchedule() {
+      scheduleContainer.innerHTML = "";
 
-    <!-- CUSTOM TAB -->
-    <div class="tab-content" id="tab-custom">
+      for (let i = 1; i <= 10; i++) {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <h3>JP ${i}</h3>
+          <p>07:00 - 07:45</p>
+        `;
+        scheduleContainer.appendChild(card);
+      }
+    }
 
-      <label>Durasi JP (menit)</label>
-      <input type="number" id="jp-duration">
+    generateSchedule();
 
-      <label>Istirahat 1 Setelah JP ke</label>
-      <input type="number" id="break1-after">
+    /* CLOCK */
+    function updateClock() {
+      const now = new Date();
+      document.getElementById("clock").innerText =
+        now.toLocaleTimeString();
+    }
 
-      <label>Durasi Istirahat 1</label>
-      <input type="number" id="break1-duration">
+    setInterval(updateClock, 1000);
 
-      <label>Istirahat 2 Setelah JP ke</label>
-      <input type="number" id="break2-after">
+    /* ADMIN */
+    function toggleAdmin() {
+      const panel = document.getElementById("adminPanel");
+      panel.style.display =
+        panel.style.display === "block" ? "none" : "block";
+    }
 
-      <label>Durasi Istirahat 2</label>
-      <input type="number" id="break2-duration">
+    function applyMode() {
+      const mode = document.getElementById("modeSelect").value;
+      const indicator = document.getElementById("mode-indicator");
 
-    </div>
+      indicator.className = "";
+      indicator.classList.add("mode-" + mode);
+      indicator.innerText = "MODE: " + mode.toUpperCase();
+    }
 
-    <!-- EXAM TAB -->
-    <div class="tab-content" id="tab-exam">
-
-      <label>Jumlah Sesi</label>
-      <select id="total-session">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-      </select>
-
-      <label>Durasi per Mapel (menit)</label>
-      <input type="number" id="exam-duration">
-
-    </div>
-
-  </div>
-
-  <!-- FOOTER -->
-  <div class="admin-footer">
-    <button id="save-config">Simpan</button>
-  </div>
-
-</div>
-```
-
-  </div>
-
-  <!-- SCRIPTS -->
-
-  <script src="scripts/app.js"></script>
-
-  <script src="scripts/clock.js"></script>
+  </script>
 
 </body>
 </html>
-
