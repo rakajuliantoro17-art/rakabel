@@ -322,3 +322,9 @@ const startApp = () => {
 // INIT
 // =========================
 document.addEventListener("DOMContentLoaded", startApp);
+import normalSchedule from "../config/normal.json";
+import examSchedule from "../config/exam.json";
+import hybridSchedule from "../config/hybrid.json";
+ModeHelper.switchMode("normal", { customSchedule: normalSchedule });
+ModeHelper.switchMode("exam", { customSchedule: examSchedule });
+ModeHelper.switchMode("hybrid", { customSchedule: hybridSchedule });
