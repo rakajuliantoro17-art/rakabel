@@ -328,3 +328,7 @@ import hybridSchedule from "../config/hybrid.json";
 ModeHelper.switchMode("normal", { customSchedule: normalSchedule });
 ModeHelper.switchMode("exam", { customSchedule: examSchedule });
 ModeHelper.switchMode("hybrid", { customSchedule: hybridSchedule });
+import defaultConfig from "./config/default.js";
+import { todayCustomSchedule } from "./config/customSchedule.js";
+import { examSchedule } from "./config/examSchedule.js";
+import { hybridExtraSessions } from "./config/hybridExtra.js";
