@@ -1,1 +1,181 @@
+/* ========================= */
+/* MODE NORMAL STYLE */
+/* ========================= */
 
+/* Container khusus normal */
+.mode-normal-container {
+  animation: fadeInNormal 0.5s ease;
+}
+
+/* ========================= */
+/* CARD NORMAL */
+/* ========================= */
+
+.card.normal {
+  position: relative;
+  overflow: hidden;
+}
+
+/* strip kiri (indikator hidup) */
+.card.normal::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 5px;
+  background: rgba(255,255,255,0.2);
+}
+
+/* ========================= */
+/* JP NUMBER */
+/* ========================= */
+
+.card .jp-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.card .jp-time {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* ========================= */
+/* ACTIVE JP (REAL TIME) */
+/* ========================= */
+
+.card.normal.active {
+  transform: scale(1.05);
+  border: 2px solid #00ffd5;
+
+  box-shadow:
+    0 0 25px rgba(0,255,200,0.9),
+    inset 0 0 10px rgba(255,255,255,0.2);
+}
+
+/* glow kiri */
+.card.normal.active::before {
+  background: linear-gradient(to bottom, #00ffd5, #00aaff);
+  width: 6px;
+}
+
+/* animasi pulse */
+.card.normal.active {
+  animation: pulseActive 1.5s infinite;
+}
+
+/* ========================= */
+/* ISTIRAHAT STYLE */
+/* ========================= */
+
+.card.break {
+  background: rgba(255, 200, 0, 0.15);
+  border: 1px solid rgba(255, 200, 0, 0.4);
+}
+
+.card.break .jp-title {
+  color: #ffd166;
+}
+
+/* ikon istirahat */
+.card.break::after {
+  content: "☕";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 18px;
+}
+
+/* ========================= */
+/* ISTIRAHAT AKTIF */
+/* ========================= */
+
+.card.break.active {
+  box-shadow:
+    0 0 20px rgba(255,200,0,0.8),
+    inset 0 0 10px rgba(255,255,255,0.2);
+}
+
+/* ========================= */
+/* TRANSISI ANTAR JP */
+/* ========================= */
+
+.card.normal.next {
+  opacity: 0.6;
+  transform: scale(0.98);
+}
+
+.card.normal.past {
+  opacity: 0.4;
+  filter: grayscale(60%);
+}
+
+/* ========================= */
+/* LABEL KECIL */
+/* ========================= */
+
+.card .label {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+
+  font-size: 11px;
+  opacity: 0.6;
+}
+
+/* ========================= */
+/* ANIMATION */
+/* ========================= */
+
+@keyframes pulseActive {
+  0% {
+    box-shadow: 0 0 10px rgba(0,255,200,0.5);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(0,255,200,1);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(0,255,200,0.5);
+  }
+}
+
+@keyframes fadeInNormal {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================= */
+/* SPECIAL CASE: ISTIRAHAT 2 = 0 */
+/* ========================= */
+
+/* hidden break jika 0 menit */
+.card.break.hidden {
+  display: none;
+}
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
+@media (max-width: 600px) {
+
+  .card.normal.active {
+    transform: scale(1.03);
+  }
+
+  .card .jp-title {
+    font-size: 16px;
+  }
+
+  .card .jp-time {
+    font-size: 12px;
+  }
+}
