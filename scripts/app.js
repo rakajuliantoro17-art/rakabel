@@ -339,3 +339,16 @@ ModeHelper.switchMode("normal", { config: App.config });
 
 // Pilih mode custom
 // ModeHelper.switchMode("custom", { customSchedule: todayCustomSchedule });
+import TimeUtils from "./time.js";
+
+// Hitung sisa detik untuk countdown
+const diffSeconds = TimeUtils.secondsUntil(App.currentSession.end, clock.currentTime);
+
+// Update countdown UI
+document.getElementById("countdown").innerText = TimeUtils.formatCountdown(diffSeconds);
+
+// Konversi "HH:MM" ke menit total
+const jpStart = TimeUtils.toMinutes("07:00");
+
+// Konversi menit total ke string
+const timeStr = TimeUtils.fromMinutes(435); // "07:15"
