@@ -278,3 +278,14 @@ NormalMode.init(App.config, (session) => {
   updateCountdown();
   updateProgress();
 });
+import ExamMode from "./modes/exam.js";
+
+// Contoh inisialisasi mode ujian
+ExamMode.init(App.config, (session) => {
+  App.currentSession = session;
+  if (session) playBell();
+  renderCurrent();
+  renderSchedule();
+  updateCountdown();
+  updateProgress();
+});
