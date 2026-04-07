@@ -160,6 +160,7 @@ function playBell() {
 function loop() {
   updateClockUI();
   updateSession();
+  checkIndonesiaRaya(); // 🔥 WAJIB
   renderCurrent();
   renderSchedule();
 }
@@ -175,3 +176,40 @@ function start() {
 }
 
 document.addEventListener("DOMContentLoaded", start);
+const bellMasuk = new Audio("/assets/sounds/bellmasuk.mp3");
+const indonesiaRaya = new Audio("/assets/sounds/indoraya.mp3");
+function playBellMasuk() {
+  if (!App.isBellEnabled) return;
+  bellMasuk.currentTime = 0;
+  bellMasuk.play().catch(() => {});
+}
+
+function playIndonesiaRaya() {
+  indonesiaRaya.currentTime = 0;
+  indonesiaRaya.play().catch(() => {});
+}
+let lastIndonesiaRayaDate = null;
+
+function checkIndonesiaRaya() {
+  const now = clock.currentTime;
+
+  const day = now.getDay(); // 0=minggu, 1=senin
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+
+  const todayKey = now.toDateString();
+
+  if (
+    day >= 2 && day <= 5 &&
+    hours === 7 &&
+    minutes === 0 &&
+    lastIndonesiaRayaDate !== todayKey
+  ) {
+    playIndonesiaRaya();
+    lastIndonesiaRayaDate = todayKey;
+  }
+}
+document.body.addEventListener("click", () => {
+  bellMasuk.play().catch(()=>{});
+  indonesiaRaya.play().catch(()=>{});
+}, { once: true });
