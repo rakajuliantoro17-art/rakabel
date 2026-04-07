@@ -1,19 +1,6 @@
-const gearBtn = document.getElementById("gearBtn");
-const adminPanel = document.getElementById("adminPanel");
-
-gearBtn.addEventListener("click", (e) => {
-  e.stopPropagation();
-  adminPanel.classList.toggle("show");
-});
-
-document.addEventListener("click", (e) => {
-  if (
-    !adminPanel.contains(e.target) &&
-    !gearBtn.contains(e.target)
-  ) {
-    adminPanel.classList.remove("show");
-  }
-});
+// ==========================
+// IMPORT
+// ==========================
 import clock from "./clock.js";
 
 // ==========================
@@ -34,8 +21,52 @@ const scheduleEl = document.getElementById("scheduleContainer");
 const currentEl = document.getElementById("currentSession");
 const modeIndicator = document.getElementById("mode-indicator");
 
+const gearBtn = document.getElementById("gearBtn");
+const adminPanel = document.getElementById("adminPanel");
+
 // ==========================
-// SAMPLE SCHEDULE (NORMAL)
+// AUDIO
+// ==========================
+const bellMasuk = new Audio("/assets/sounds/bellmasuk.mp3");
+const indonesiaRaya = new Audio("/assets/sounds/indoraya.mp3");
+
+// unlock autoplay (WAJIB)
+document.body.addEventListener("click", () => {
+  bellMasuk.play().catch(()=>{});
+  indonesiaRaya.play().catch(()=>{});
+}, { once: true });
+
+// ==========================
+// ADMIN PANEL
+// ==========================
+gearBtn?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  adminPanel.classList.toggle("show");
+});
+
+document.addEventListener("click", (e) => {
+  if (
+    !adminPanel.contains(e.target) &&
+    !gearBtn.contains(e.target)
+  ) {
+    adminPanel.classList.remove("show");
+  }
+});
+
+// ==========================
+// UTIL
+// ==========================
+function formatTime(h, m) {
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+}
+
+function getNowHHMM() {
+  const now = clock.currentTime;
+  return formatTime(now.getHours(), now.getMinutes());
+}
+
+// ==========================
+// SCHEDULE GENERATOR
 // ==========================
 function generateSchedule() {
   let startHour = 7;
@@ -62,18 +93,6 @@ function generateSchedule() {
   }
 
   return result;
-}
-
-// ==========================
-// UTIL
-// ==========================
-function formatTime(h, m) {
-  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
-}
-
-function getNowHHMM() {
-  const now = new Date();
-  return formatTime(now.getHours(), now.getMinutes());
 }
 
 // ==========================
@@ -108,7 +127,7 @@ function updateSession() {
     const key = session.start + session.end;
 
     if (App.lastBellKey !== key) {
-      playBell();
+      playBellMasuk();
       App.lastBellKey = key;
     }
   }
@@ -143,24 +162,52 @@ function updateClockUI() {
 }
 
 // ==========================
-// BELL 🔔
+// BELL FUNCTIONS
 // ==========================
-const bell = new Audio("assets/sounds/bell.mp3");
-
-function playBell() {
+function playBellMasuk() {
   if (!App.isBellEnabled) return;
 
-  bell.currentTime = 0;
-  bell.play().catch(() => {});
+  bellMasuk.currentTime = 0;
+  bellMasuk.play().catch(() => {});
+}
+
+function playIndonesiaRaya() {
+  indonesiaRaya.currentTime = 0;
+  indonesiaRaya.play().catch(() => {});
 }
 
 // ==========================
-// MAIN LOOP
+// INDONESIA RAYA (07:00 SENIN–JUMAT)
+// ==========================
+let lastIndonesiaRayaDate = null;
+
+function checkIndonesiaRaya() {
+  const now = clock.currentTime;
+
+  const day = now.getDay(); // 0=minggu, 1=senin
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+
+  const todayKey = now.toDateString();
+
+  if (
+    day >= 1 && day <= 5 &&
+    hours === 7 &&
+    minutes === 0 &&
+    lastIndonesiaRayaDate !== todayKey
+  ) {
+    playIndonesiaRaya();
+    lastIndonesiaRayaDate = todayKey;
+  }
+}
+
+// ==========================
+// LOOP
 // ==========================
 function loop() {
   updateClockUI();
   updateSession();
-  checkIndonesiaRaya(); // 🔥 WAJIB
+  checkIndonesiaRaya();
   renderCurrent();
   renderSchedule();
 }
@@ -176,40 +223,9 @@ function start() {
 }
 
 document.addEventListener("DOMContentLoaded", start);
-const bellMasuk = new Audio("/assets/sounds/bellmasuk.mp3");
-const indonesiaRaya = new Audio("/assets/sounds/indoraya.mp3");
-function playBellMasuk() {
-  if (!App.isBellEnabled) return;
-  bellMasuk.currentTime = 0;
-  bellMasuk.play().catch(() => {});
-}
 
-function playIndonesiaRaya() {
-  indonesiaRaya.currentTime = 0;
-  indonesiaRaya.play().catch(() => {});
-}
-let lastIndonesiaRayaDate = null;
-
-function checkIndonesiaRaya() {
-  const now = clock.currentTime;
-
-  const day = now.getDay(); // 0=minggu, 1=senin
-  const hours = now.getHours();
-  const minutes = now.getMinutes();
-
-  const todayKey = now.toDateString();
-
-  if (
-    day >= 2 && day <= 5 &&
-    hours === 7 &&
-    minutes === 0 &&
-    lastIndonesiaRayaDate !== todayKey
-  ) {
-    playIndonesiaRaya();
-    lastIndonesiaRayaDate = todayKey;
-  }
-}
-document.body.addEventListener("click", () => {
-  bellMasuk.play().catch(()=>{});
-  indonesiaRaya.play().catch(()=>{});
-}, { once: true });
+// ==========================
+// GLOBAL (UNTUK TEST BUTTON)
+// ==========================
+window.playBellMasuk = playBellMasuk;
+window.playIndonesiaRaya = playIndonesiaRaya;
